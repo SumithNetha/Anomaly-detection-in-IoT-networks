@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anomaly Detection Using Deep Learning</title>
+    
+    <style>
+    body {
+            
+            background-size: cover;
+            background-position: center;
+            font-family: Arial, sans-serif; /* Adding a fallback font */
+            margin: 0; /* Remove default margin */
+            padding: 0; /* Remove default padding */
+        }
+
+
+
+        h1 {
+    text-align: center;
+    background-color: #2A283D;
+    color: white;
+    padding: 20px;
+}
+
+.form-container {
+    width: 50%;
+    margin: 0 auto;
+    background-color: #f4f4f4;
+    border: 1px solid #444;
+    padding: 20px;
+    text-align: center;
+}
+
+.prediction-container {
+            width: 50%;
+            margin: 20px auto;
+            background-color: #f4f4f4;
+            border: 1px solid #444;
+            padding: 20px;
+            
+        }
+
+        
+
+button {
+    background-color: #007bff; /* Blue color for button */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3; /* Darker shade of blue on hover */
+}
+
+    </style>
+</head>
+<body>
+    <h1>CNN models for Anomaly Detection in IoT Networks</h1>
+
+    <!-- Form for uploading CSV file and making predictions with CNN1D -->
+    <div class="form-container">
+        <h2 style="text-align: center;">IoT model </h2>
+        <form method="POST" enctype="multipart/form-data" action="/upload_cnn1d">
+            <input type="file" name="file" accept=".csv" required>
+            <button type="submit">Predict</button>
+        </form>
+    </div>
+
+    <!-- Form for uploading CSV file and making predictions with CNN1D for intrusion -->
+    <div class="form-container">
+        <h2 style="text-align: center;">Intrusion model</h2>
+        <form method="POST" enctype="multipart/form-data" action="/upload_intrusion">
+            <input type="file" name="file" accept=".csv" required>
+            <button type="submit">Predict </button>
+        </form>
+    </div>
+    <!--form for csv and bi_cnn1d for iot-->
+    <div class="form-container">
+        <h2 style="text-align: center;">Binary classification of IoT model</h2>
+        <form method="POST" enctype="multipart/form-data" action="/upload_Bi_iot">
+            <input type="file" name="file" accept=".csv" required>
+            <button type="submit">Predict </button>
+        </form>
+    </div>
+    <!--form for csv and bi_cnn1d for intrusion-->
+   
+
+    <div class="prediction-container">
+        {% if predictions_available_cnn1d %}
+            <h2 style="text-align: center;">Predictions from CNN in IoT model</h2>
+            <ul>
+                {% for prediction in predictions_cnn1d %}
+                    <li>{{ prediction }}</li>
+                {% endfor %}
+            </ul>
+            {% elif predictions_available_bi_iot %}
+            <h2 style="text-align: center;">Predictions from Binary CNN in IoT Model</h2>
+            <ul>
+                {% for prediction in predictions_bi_iot %}
+                    <li>{{ prediction }}</li>
+                {% endfor %}
+            </ul>
+
+        
+        {% endif %}
+    </div>
+    <div class="prediction-container">
+        
+        {% if predictions_available_intrusion %}
+            <h2 style="text-align: center;">Predictions from CNN in Intrusion Model</h2>
+            <ul>
+                {% for prediction in predictions_intrusion %}
+                    <li>{{ prediction }}</li>
+                {% endfor %}
+            </ul>
+            
+
+        
+        {% endif %}
+    </div>
+
+
+    <!-- Display message if any -->
+    {% if message %}
+    <p>{{ message }}</p>
+    {% endif %}
+</body>
+</html>
